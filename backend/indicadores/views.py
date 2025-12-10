@@ -26,7 +26,86 @@ class IndicadorViewSet(viewsets.ModelViewSet):
             'total_valores':total_valores,
             'indicadores_por_tipo':list(indicador_por_tipo)
         })
+
+    @action(detail=False, methods=['get'])
+    def dashboard(self, request):
+        indicadores = Indicador.objects.all()
+        resultado = []
+        
+        for indicador in indicadores:
+            ultimo_valor = ValorIndicador.objects.filter(
+                indicador=indicador
+            ).order_by('-data_coleta').first()
+            
+            if ultimo_valor:
+                resultado.append({
+                    'id': indicador.id,
+                    'nome': indicador.nome,
+                    'tipo': indicador.tipo,
+                    'unidade': indicador.unidade,
+                    'ultimo_valor': float(ultimo_valor.valor),
+                    'data_coleta': ultimo_valor.data_coleta,
+                    'variacao_percentual': ultimo_valor.variacao_percentual(),
+                    'fonte': ultimo_valor.fonte,
+                })
+            else:
+                resultado.append({
+                    'id': indicador.id,
+                    'nome': indicador.nome,
+                    'tipo': indicador.tipo,
+                    'unidade': indicador.unidade,
+                    'ultimo_valor': None,
+                    'data_coleta': None,
+                    'variacao_percentual': None,
+                    'fonte': None,
+                })
+        
+        return Response(resultado)
     
+    @action(detail=False, methods=['get'])
+    def comparar(self, request):
+        ids = request.query_params.get('ids', '')
+        
+        if not ids:
+            return Response(
+                {'erro': 'Parâmetro ids é obrigatório. Ex: ?ids=1,2'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            ids_lista = [int(id.strip()) for id in ids.split(',')]
+        except ValueError:
+            return Response(
+                {'erro': 'IDs inválidos. Use números separados por vírgula.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Busca os indicadores
+        indicadores = Indicador.objects.filter(id__in=ids_lista)
+        
+        if not indicadores.exists():
+            return Response(
+                {'erro': 'Nenhum indicador encontrado com esses IDs.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        resultado = []
+        
+        for indicador in indicadores:
+            # Busca todos os valores desse indicador
+            valores = ValorIndicador.objects.filter(
+                indicador=indicador
+            ).order_by('-data_coleta')[:10]  # Últimos 10 valores
+            
+            valores_serializados = ValorIndicadorSerializer(valores, many=True).data
+            
+            resultado.append({
+                'indicador': IndicadorSerializer(indicador).data,
+                'valores': valores_serializados,
+            })
+        
+        return Response(resultado)
+
 class ValorIndicadorViewSet(viewsets.ModelViewSet):
     queryset = ValorIndicador.objects.all()
     serializer_class = ValorIndicadorSerializer
