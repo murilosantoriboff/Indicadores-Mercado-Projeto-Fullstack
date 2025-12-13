@@ -1,0 +1,45 @@
+.home-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.home-container h1 {
+  color: #282c34;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.indicadores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.loading, .erro {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+}
+
+.erro {
+  color: #ef4444;
+}
+
+.btn-atualizar {
+  display: block;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-atualizar:hover {
+  background-color: #4fa8c5;
+}
