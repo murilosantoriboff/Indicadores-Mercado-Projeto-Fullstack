@@ -7,10 +7,10 @@ class Indicador(models.Model):
     """
     # Tipos de indicadores
     TIPO_CHOICES = [
-        ('moeda', 'Moeda (Dolar, Euro, etc)'),
-        ('indice', 'Indice (IGPM, INPC, etc)'),
-        ('produto', 'Produto (Cesta Basica, etc)'),
-        ('outro', 'Outro'),
+        ('Moeda', 'Moeda (Dolar, Euro, etc)'),
+        ('Indice', 'Indice (IGPM, INPC, etc)'),
+        ('Produto', 'Produto (Cesta Basica, etc)'),
+        ('Outro', 'Outro'),
     ]
     nome = models.CharField(max_length=100, unique=True)
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
