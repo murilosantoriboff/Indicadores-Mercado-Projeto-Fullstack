@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Comparacao from './pages/Comparacao';
+import Cadastro from './pages/Cadastro';
 import './App.css';
 
 function App() {
@@ -11,7 +13,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* Outras rotas virão aqui */}
+          <Route path='/comparacao' element={<Comparacao/>}/>
+          <Route path='/cadastro' element={<Cadastro/>}/>
         </Routes>
       </div>
     </Router>

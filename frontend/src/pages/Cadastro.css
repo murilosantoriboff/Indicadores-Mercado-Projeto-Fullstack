@@ -1,0 +1,199 @@
+.cadastro-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.cadastro-container h1 {
+  color: #282c34;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e5e5e5;
+}
+
+.tab {
+  padding: 1rem 2rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+  color: #666;
+}
+
+.tab:hover {
+  color: #282c34;
+}
+
+.tab.active {
+  color: #61dafb;
+  border-bottom-color: #61dafb;
+  font-weight: bold;
+}
+
+/* Mensagem de feedback */
+.mensagem {
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.mensagem.sucesso {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.mensagem.erro {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Formulário */
+.form-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.form-section h2 {
+  color: #282c34;
+  margin-bottom: 1.5rem;
+}
+
+.form-cadastro {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #282c34;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #61dafb;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-submit {
+  padding: 1rem 2rem;
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+  background-color: #4fa8c5;
+}
+
+/* Lista de indicadores */
+.lista-indicadores {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.lista-indicadores h2 {
+  color: #282c34;
+  margin-bottom: 1.5rem;
+}
+
+.indicadores-grid-lista {
+  display: grid;
+  gap: 1rem;
+}
+
+.indicador-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.indicador-item:hover {
+  background-color: #e5e5e5;
+}
+
+.indicador-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.indicador-info strong {
+  color: #282c34;
+}
+
+.badge-tipo {
+  background-color: #61dafb;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.indicador-unidade {
+  color: #666;
+  font-weight: bold;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
+    border-bottom: none;
+  }
+
+  .tab {
+    border-bottom: 2px solid #e5e5e5;
+  }
+
+  .tab.active {
+    border-bottom-color: #61dafb;
+  }
+}
