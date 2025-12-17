@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getIndicadores, compararIndicadores } from '../services/api';
 import './Comparacao.css';
+import GraficoComparacao from '../components/GraficoComparacao';
+
 
 function Comparacao(){
     const [indicadores, setIndicadores] = useState([]);
@@ -96,6 +98,8 @@ function Comparacao(){
             {resultadoComparacao.length > 0 && (
                 <div className="resultado-section">
                 <h2>Resultados da Comparação</h2>
+
+                <GraficoComparacao dadosComparacao={resultadoComparacao} />
                 
                 {resultadoComparacao.map((item) => (
                     <div key={item.indicador.id} className="indicador-resultado">

@@ -1,0 +1,18 @@
+.grafico-container {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 2rem 0;
+}
+
+.grafico-wrapper {
+  height: 400px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .grafico-wrapper {
+    height: 300px;
+  }
+}
