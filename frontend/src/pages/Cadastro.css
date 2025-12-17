@@ -197,3 +197,40 @@
     border-bottom-color: #61dafb;
   }
 }
+
+/* Tabela de indicadores */
+.tabela-indicadores {
+  overflow-x: auto;
+}
+
+.tabela-indicadores table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela-indicadores thead {
+  background-color: #282c34;
+  color: white;
+}
+
+.tabela-indicadores th,
+.tabela-indicadores td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabela-indicadores tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.tabela-indicadores td strong {
+  color: #282c34;
+}
+
+.sem-dados {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+  font-style: italic;
+}
