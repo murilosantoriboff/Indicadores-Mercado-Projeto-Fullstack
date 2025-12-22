@@ -20,8 +20,9 @@ class ColetorBacen:
             data = datetime.now().strftime('%m-%d-%Y')
         
         
-        url = f"{self.base_url}/CotacaoDolarDia(dataCotacao=@dataCotacao)"
+        url = f"{self.base_url}/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)"
         params = {
+            "@moeda": "'USD'",
             "@dataCotacao": f"'{data}'",
             "$format": "json"
         }
