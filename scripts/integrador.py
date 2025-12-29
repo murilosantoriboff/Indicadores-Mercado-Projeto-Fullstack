@@ -9,6 +9,14 @@ sys.path.insert(0, BACKEND_DIR)
 
 # Configurar Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+from pathlib import Path
+env_path = Path(BACKEND_DIR) / '.env'
+if env_path.exists():
+    from dotenv import load_dotenv
+    load_dotenv(env_path)
+    print(f"Arquivo .env carregado de: {env_path}")
+else:
+    print(f"Arquivo .env não encontrado em: {env_path}")
 django.setup()
 
 # Importar models do Django
