@@ -79,16 +79,17 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='postgres'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='5432'),
+        'NAME': 'postgres',
+        'USER': 'postgres.fauzlukpyqskywajzuor',
+        'PASSWORD': config('DB_PASSWORD'),  
+        'HOST': 'aws-1-sa-east-1.pooler.supabase.com',
+        'PORT': '5432',
         'OPTIONS': {
             'sslmode': 'require',
         },
     }
 }
+
 
 # CORS para React
 CORS_ALLOWED_ORIGINS = [
