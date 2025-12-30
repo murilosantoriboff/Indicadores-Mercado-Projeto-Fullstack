@@ -1,14 +1,23 @@
+"""
+Script integrador que conecta os coletores com o Django
+Salva os dados coletados automaticamente no banco de dados
+VERSÃO 2.0 - Com suporte a múltiplas moedas
+"""
+
 import os
 import sys
 import django
 from datetime import datetime
 
+# Adicionar o diretório do backend ao PATH
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BACKEND_DIR = os.path.join(BASE_DIR, 'backend')
-sys.path.insert(0, BACKEND_DIR)
+sys.path.append(BACKEND_DIR)
 
-# Configurar Django
+# Configurar Django ANTES de importar models
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+
+# Carregar variáveis de ambiente do .env
 from pathlib import Path
 env_path = Path(BACKEND_DIR) / '.env'
 if env_path.exists():
@@ -17,23 +26,27 @@ if env_path.exists():
     print(f"Arquivo .env carregado de: {env_path}")
 else:
     print(f"Arquivo .env não encontrado em: {env_path}")
+
+# Setup Django
 django.setup()
 
 # Importar models do Django
 from indicadores.models import Indicador, ValorIndicador
 
 # Importar coletores
-from coleta_bacen import ColetorBacen
+from coleta_moedas_multiplas import ColetorMoedasMultiplas
 from coleta_inflacao import ColetorInflacao
+
 
 class IntegradorDjango:
 
+    
     def __init__(self):
-        self.coletor_bacen = ColetorBacen()
+        self.coletor_moedas = ColetorMoedasMultiplas()
         self.coletor_inflacao = ColetorInflacao()
     
     def buscar_ou_criar_indicador(self, nome, tipo, unidade, descricao='', fonte_api=''):
-        
+
         indicador, criado = Indicador.objects.get_or_create(
             nome=nome,
             defaults={
@@ -45,14 +58,13 @@ class IntegradorDjango:
         )
         
         if criado:
-            print(f"Indicador {nome} criado no banco de dados")
+            print(f"Indicador '{nome}' criado no banco de dados")
         else:
-            print(f"Indicador {nome} já existe no banco de dados")
+            print(f"Indicador '{nome}' já existe no banco de dados")
         
         return indicador
     
     def salvar_valor(self, indicador, valor, fonte='api'):
-        
         valor_obj = ValorIndicador.objects.create(
             indicador=indicador,
             valor=valor,
@@ -63,12 +75,13 @@ class IntegradorDjango:
         return valor_obj
     
     def processar_moedas(self):
-        
+
         print("\n" + "=" * 60)
-        print("PROCESSANDO MOEDAS (BACEN)")
+        print("PROCESSANDO MÚLTIPLAS MOEDAS (BACEN)")
         print("=" * 60)
         
-        cotacoes = self.coletor_bacen.get_todas_cotacoes()
+        # Coletar todas as moedas de uma vez
+        cotacoes = self.coletor_moedas.get_todas_moedas()
         
         if not cotacoes:
             print("Nenhuma cotação obtida do Bacen")
@@ -78,14 +91,14 @@ class IntegradorDjango:
         
         for cotacao in cotacoes:
             try:
-                print(f"\nProcessando {cotacao['moeda']}...")
+                print(f"\nProcessando {cotacao['pais']} {cotacao['nome']}...")
                 
                 # Buscar ou criar indicador
                 indicador = self.buscar_ou_criar_indicador(
-                    nome=cotacao['moeda'],
+                    nome=cotacao['nome'],
                     tipo='moeda',
                     unidade='R$',
-                    descricao=f"Cotação do {cotacao['moeda']} ({cotacao['simbolo']})",
+                    descricao=f"Cotação do {cotacao['nome']} ({cotacao['codigo']}) em relação ao Real",
                     fonte_api='https://olinda.bcb.gov.br/olinda/servico/PTAX/'
                 )
                 
@@ -110,13 +123,15 @@ class IntegradorDjango:
                 salvos += 1
                 
             except Exception as e:
-                print(f"Erro ao processar {cotacao['moeda']}: {e}")
+                print(f"Erro ao processar {cotacao['nome']}: {e}")
         
-        print(f"\n {salvos} valores de moedas salvos com sucesso!")
+        print(f"\n✅ {salvos} valores de moedas salvos com sucesso!")
         return salvos
     
     def processar_inflacao(self):
-        
+        """
+        Processa e salva dados de inflação do IBGE
+        """
         print("\n" + "=" * 60)
         print("PROCESSANDO INFLAÇÃO (IBGE)")
         print("=" * 60)
@@ -143,7 +158,6 @@ class IntegradorDjango:
                 )
                 
                 # Verificar se já existe valor recente (mesmo mês)
-                # Como IPCA é mensal, verificamos se já tem valor no mês atual
                 valor_existe = ValorIndicador.objects.filter(
                     indicador=indicador,
                     data_coleta__month=datetime.now().month,
@@ -166,12 +180,12 @@ class IntegradorDjango:
             except Exception as e:
                 print(f"Erro ao processar {ind_data['indicador']}: {e}")
         
-        print(f"\n{salvos} valores de inflação salvos com sucesso!")
+        print(f"\n✅ {salvos} valores de inflação salvos com sucesso!")
         return salvos
     
     def executar_coleta_completa(self):
-        
-        print("INICIANDO COLETA AUTOMÁTICA DE DADOS")
+
+        print("COLETA AUTOMÁTICA")
         print(f"Data/Hora: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         
         total_salvos = 0
