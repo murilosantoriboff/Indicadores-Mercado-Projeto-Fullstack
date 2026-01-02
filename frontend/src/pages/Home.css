@@ -8,38 +8,256 @@
   color: #282c34;
   margin-bottom: 2rem;
   text-align: center;
+  font-size: 2rem;
 }
+
+/* ========================================
+   FILTROS E BUSCA
+   ======================================== */
+
+.filtros-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.busca-wrapper {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.input-busca {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.input-busca:focus {
+  outline: none;
+  border-color: #61dafb;
+  box-shadow: 0 0 0 3px rgba(97, 218, 251, 0.1);
+}
+
+.btn-limpar-busca {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #e1e8ed;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.btn-limpar-busca:hover {
+  background: #d1d8dd;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.filtro-tipo-wrapper {
+  min-width: 200px;
+}
+
+.select-tipo {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-tipo:focus {
+  outline: none;
+  border-color: #61dafb;
+  box-shadow: 0 0 0 3px rgba(97, 218, 251, 0.1);
+}
+
+.btn-limpar-filtros {
+  padding: 0.75rem 1.5rem;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.btn-limpar-filtros:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* ========================================
+   INFORMAÇÃO DE RESULTADOS
+   ======================================== */
+
+.resultado-info {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.resultado-info strong {
+  color: #282c34;
+  font-weight: 600;
+}
+
+/* ========================================
+   GRID DE INDICADORES
+   ======================================== */
 
 .indicadores-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+  min-height: 200px;
 }
 
-.loading, .erro {
+/* ========================================
+   LOADING E ERRO
+   ======================================== */
+
+.loading {
   text-align: center;
   padding: 3rem;
-  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #61dafb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading p {
+  font-size: 1.1rem;
+  color: #64748b;
 }
 
 .erro {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
   color: #ef4444;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  margin: 2rem 0;
 }
+
+/* ========================================
+   SEM RESULTADOS
+   ======================================== */
+
+.sem-resultados {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 2px dashed #e1e8ed;
+}
+
+.sem-resultados p {
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+/* ========================================
+   BOTÃO ATUALIZAR
+   ======================================== */
 
 .btn-atualizar {
   display: block;
-  margin: 0 auto;
+  margin: 2rem auto 0;
   padding: 0.75rem 1.5rem;
   background-color: #61dafb;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);
 }
 
 .btn-atualizar:hover {
   background-color: #4fa8c5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(97, 218, 251, 0.4);
+}
+
+.btn-atualizar:active {
+  transform: translateY(0);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .home-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .filtros-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .busca-wrapper,
+  .filtro-tipo-wrapper {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .indicadores-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .btn-limpar-filtros {
+    width: 100%;
+  }
 }
