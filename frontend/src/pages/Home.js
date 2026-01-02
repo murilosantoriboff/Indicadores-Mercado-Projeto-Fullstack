@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getDashboard } from '../services/api';
 import IndicadorCard from '../components/IndicadorCard';
 import './Home.css';
@@ -10,15 +10,30 @@ function Home() {
   const [erro, setErro] = useState(null);
   const [busca, setBusca] = useState('');
   const [filtroTipo, setFiltroTipo] = useState('todos');   
-  
 
   useEffect(() => {
     carregarDashboard();
   }, []);
 
+  const filtrarIndicadores = useCallback(() => {
+    let resultado = [...indicadores];
+
+    if (busca.trim() !== '') {
+      resultado = resultado.filter(ind =>
+        ind.nome.toLowerCase().includes(busca.toLowerCase())
+      );
+    }
+
+    if (filtroTipo !== 'todos') {
+      resultado = resultado.filter(ind => ind.tipo === filtroTipo);
+    }
+
+    setIndicadoresFiltrados(resultado);
+  }, [busca, filtroTipo, indicadores]);
+
   useEffect(() => {
     filtrarIndicadores();
-  }, [busca, filtroTipo, indicadores]);
+  }, [filtrarIndicadores]);
 
   const carregarDashboard = async () => {
     try {
@@ -32,23 +47,6 @@ function Home() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const filtrarIndicadores = () => {
-    let resultado = [...indicadores];
-
-    if (busca.trim() !== '') {
-      resultado = resultado.filter(ind =>
-        ind.nome.toLowerCase().includes(busca.toLowerCase())
-      );
-    }
-
-    // Filtrar por tipo
-    if (filtroTipo !== 'todos') {
-      resultado = resultado.filter(ind => ind.tipo === filtroTipo);
-    }
-
-    setIndicadoresFiltrados(resultado);
   };
 
   const getTiposUnicos = () => {

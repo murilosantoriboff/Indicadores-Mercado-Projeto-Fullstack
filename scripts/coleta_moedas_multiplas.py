@@ -168,7 +168,7 @@ class ColetorMoedasMultiplas:
         print("=" * 60)
         
         if not cotacoes:
-            print("⚠️ Nenhuma cotação foi coletada.")
+            print("Nenhuma cotação foi coletada.")
             return
         
         # Ordenar por nome
