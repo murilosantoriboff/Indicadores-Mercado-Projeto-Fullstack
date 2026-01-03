@@ -24,4 +24,7 @@ export const createValor = (data) => api.post('/valores/', data);
 export const getValoresPorIndicador = (indicadorId) => 
   api.get(`/valores/?indicador=${indicadorId}`);
 
+export const getValoresIndicador = (indicadorId) => 
+  api.get(`/valores/?indicador=${indicadorId}`);
+
 export default api;

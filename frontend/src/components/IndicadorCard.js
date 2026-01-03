@@ -1,5 +1,6 @@
 import React from 'react';
 import './IndicadorCard.css';
+import { useNavigate } from 'react-router-dom';
 
 function IndicadorCard({ indicador }) {
   const { nome, tipo, unidade, ultimo_valor, variacao_percentual, data_coleta } = indicador;
@@ -30,8 +31,14 @@ function IndicadorCard({ indicador }) {
     ? 'negativa' 
     : 'neutra';
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/detalhes/${indicador.id}`);
+  };
+
   return (
-    <div className="indicador-card">
+    <div className="indicador-card" onClick={handleClick}>
       <div className="card-header">
         <h3>{nome}</h3>
         <span className="badge">{tipo}</span>
