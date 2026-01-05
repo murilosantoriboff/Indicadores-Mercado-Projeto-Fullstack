@@ -1,0 +1,113 @@
+.exportar-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
+.exportar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.exportar-icone {
+  font-size: 1.5rem;
+}
+
+.exportar-titulo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #282c34;
+}
+
+.exportar-count {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.exportar-botoes {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-exportar {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-exportar:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-exportar:active {
+  transform: translateY(-1px);
+}
+
+.btn-exportar.csv {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-exportar.csv:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #63408b 100%);
+}
+
+.btn-exportar.excel {
+  background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+  color: white;
+}
+
+.btn-exportar.excel:hover {
+  background: linear-gradient(135deg, #38b58c 0%, #134a84 100%);
+}
+
+.btn-exportar.json {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.btn-exportar.json:hover {
+  background: linear-gradient(135deg, #da7ee6 0%, #dc495a 100%);
+}
+
+.aviso-exportar {
+  text-align: center;
+  color: #64748b;
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .exportar-botoes {
+    flex-direction: column;
+  }
+
+  .btn-exportar {
+    width: 100%;
+  }
+
+  .exportar-header {
+    flex-wrap: wrap;
+  }
+}

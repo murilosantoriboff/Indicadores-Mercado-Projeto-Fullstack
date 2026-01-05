@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getIndicador, getValoresIndicador } from '../services/api';
 import { Line } from 'react-chartjs-2';
+import * as XLSX from 'xlsx'
 import './Detalhe.css';
 
 function Detalhes() {
@@ -36,6 +37,48 @@ function Detalhes() {
       setLoading(false);
     }
   };
+
+  const exportarValoresCSV = () => {
+    const dados = valores.map(v => ({
+      'Data': new Date(v.data_coleta).toLocaleDateString('pt-BR'),
+      'Valor': `${indicador.unidade} ${parseFloat(v.valor).toFixed(4)}`,
+      'Fonte': v.fonte
+    }));
+
+    const headers = Object.keys(dados[0]);
+    const csvContent = [
+      headers.join(','),
+      ...dados.map(row => headers.map(h => row[h]).join(','))
+    ].join('\n');
+
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${indicador.nome.replace(/\s+/g, '-')}-valores.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportarValoresExcel = () => {
+    const dados = valores.map(v => ({
+      'Data': new Date(v.data_coleta).toLocaleDateString('pt-BR'),
+      'Valor': parseFloat(v.valor).toFixed(4),
+      'Unidade': indicador.unidade,
+      'Fonte': v.fonte
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(dados);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Valores');
+    
+    XLSX.writeFile(wb, `${indicador.nome.replace(/\s+/g, '-')}-valores.xlsx`);
+  };
+
 
   const calcularEstatisticas = () => {
     if (valores.length === 0) return null;
@@ -195,6 +238,20 @@ function Detalhes() {
       )}
 
       <div className="tabela-section">
+        <div className="tabela-header">
+          <h2>Valores Históricos</h2>
+          
+          {valores.length > 0 && (
+            <div className="botoes-exportar-valores">
+              <button className="btn-export-small csv" onClick={exportarValoresCSV}>
+                CSV
+              </button>
+              <button className="btn-export-small excel" onClick={exportarValoresExcel}>
+                Excel
+              </button>
+            </div>
+          )}
+        </div>
         <h2>Valores Históricos</h2>
         
         {valores.length > 0 ? (

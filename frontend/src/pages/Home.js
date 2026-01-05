@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getDashboard } from '../services/api';
 import IndicadorCard from '../components/IndicadorCard';
+import ExportarRelatorio from '../components/ExportarRelatorio';
 import './Home.css';
 
 function Home() {
@@ -97,7 +98,7 @@ function Home() {
             </button>
           )}
         </div>
-
+          
         <div className="filtro-tipo-wrapper">
           <select
             className="select-tipo"
@@ -122,7 +123,12 @@ function Home() {
           </button>
         )}
       </div>
-
+      {!loading && !erro && indicadoresFiltrados.length > 0 && (
+        <ExportarRelatorio 
+          indicadores={indicadoresFiltrados}
+          nomeArquivo={`indicadores-${new Date().toISOString().split('T')[0]}`}
+        />
+      )}
       <div className="resultado-info">
         {busca || filtroTipo !== 'todos' ? (
           <p>
